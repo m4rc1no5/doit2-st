@@ -1,0 +1,28 @@
+package com.airhacks.doit.business.reminders.boundary;
+
+import com.airhacks.rulz.jaxrsclient.JAXRSClientProvider;
+import org.hamcrest.CoreMatchers;
+import org.junit.Assert;
+import org.junit.Rule;
+import org.junit.Test;
+
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+/**
+ * Created by marcinos on 2015-12-13.
+ */
+public class TodosResourcesIT2 {
+
+    @Rule
+    public JAXRSClientProvider provider = JAXRSClientProvider.buildWithURI("http://localhost:8080/doit2/api/todos");
+
+    @Test
+    public void fetchToDos()
+    {
+        Response response = this.provider.target().request(MediaType.TEXT_PLAIN).get();
+        Assert.assertThat(response.getStatus(), CoreMatchers.is(200));
+        String payload = response.readEntity(String.class);
+        Assert.assertTrue(payload.startsWith("Hey"));
+    }
+}
